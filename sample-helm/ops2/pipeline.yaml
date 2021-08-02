@@ -1,0 +1,107 @@
+name: $(System.DefinitionId)$(Date:yyyyMMdd)$(Rev:r)
+
+pr:
+  none
+
+trigger:
+  none
+    
+# list variables that will be used by the build pipeline#
+variables:
+  eframeDockerFile: "$(Build.SourcesDirectory)/helmpoc/Dockerfile"
+  eframeDockerImage: "eframe-services/dev/graphql-apollo-starter"
+  
+stages:
+  - stage: Compile
+    jobs:           
+#       - job: eframeImageBuild
+#         timeoutInMinutes: 180
+#         pool:
+#           vmImage: "ubuntu-latest"
+#         # Pipeline steps to build the app
+#         steps:         
+#         - task: Docker@2
+#           displayName: Build eframe docker
+#           inputs: 
+#               containerRegistry: "DEPNONPRODACR"              
+#               buildContext: "$(Build.SourcesDirectory)/helmpoc"
+#               command: "buildAndPush"
+#               Dockerfile: "$(eframeDockerFile)"
+#               repository: "$(eframeDockerImage)"              
+#               tags: |
+#                 $(Build.BuildNumber)
+
+ 
+#         - task: replacetokens@3
+#           inputs:
+#             rootDirectory: '$(Build.SourcesDirectory)/helmpoc/ops2/helmtest'
+#             targetFiles: '**/values.yaml'
+#             encoding: 'auto'
+#             writeBOM: true
+#             escapeType: 'none'
+#             actionOnMissing: 'warn'
+#             keepToken: false
+#             tokenPrefix: '__'
+#             tokenSuffix: '__'
+#             useLegacyPattern: false
+#             enableTelemetry: true
+
+#         - task: HelmInstaller@1
+#           displayName: install helm
+#           inputs:
+#             helmVersionToInstall: 'latest'
+
+#         - task: HelmDeploy@0
+#           displayName: helm package
+#           inputs:
+#             command: 'package'
+#             chartPath: '$(Build.SourcesDirectory)/helmpoc/ops2/helmtest'
+#             #chartVersion: '$(Build.BuildNumber)'
+#             save: false
+      
+# #Task to publish the copied files to the DevOps Staging directory
+#         - task: PublishBuildArtifacts@1
+#           displayName: "Publish Artifact: Container"
+#           inputs:
+#             pathToPublish: $(Build.ArtifactStagingDirectory)
+#             publishLocation: "Container"
+#             artifactName: "aks"
+
+            # ===============================================================================================
+
+      - job: CopyArtifacts
+        pool:
+          vmImage: "windows-latest"
+        steps:
+          # Task to copy the files
+          # - task: CopyFiles@2
+          #   displayName: "Copy files from code download"
+          #   inputs:
+          #     SourceFolder: '$(Build.SourcesDirectory)'
+          #     Contents: |
+          #       **/helmpoc/**
+          #       !helmpoc/ops2/**
+          #     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+          #     flattenFolders: true
+          #     cleanTargetFolder: false # Optional
+          #     overWrite: false # Optional
+          #     preserveTimestamp: true # Optional
+        - task: CopyFiles@2
+          displayName: "Copy files from code download"
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)'
+            Contents: |
+              **/helmpoc/ops2/customdefinition.yaml
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+            flattenFolders: true
+            cleanTargetFolder: false # Optional
+            overWrite: false # Optional
+            preserveTimestamp: true # Optional
+          
+         # Task to publish the copied files to the DevOps Staging directory
+        - task: PublishBuildArtifacts@1
+          displayName: "Publish Artifact: Container"
+          inputs:
+            pathToPublish: $(Build.ArtifactStagingDirectory)
+            publishLocation: "Container"
+            artifactName: "aks"

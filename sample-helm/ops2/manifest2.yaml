@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sample-aks
+  labels:
+    app: sample-aks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-aks
+  template:
+    metadata:
+      labels:
+        app: sample-aks
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: sample-aks
+        image: depnonprodregistry.azurecr.io/eframe-services/dev/graphql-apollo-starter:__version__
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 80 
+        env:
+        - name: PORT
+          value: "80"       
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: acrsecret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-aks  
+spec:
+  selector:
+    app: sample-aks
+  ports:
+  - protocol: "TCP"
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sample-aks
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: sample-aks.__PUBLIC_DNS__
+    http:
+      paths:
+      - backend:
+          serviceName: sample-aks
+          servicePort: 80
+        path: /
