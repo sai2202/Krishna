@@ -1,0 +1,38 @@
+[
+    {
+        "type": "sbns",
+        "sme": ["sme1@bechtel.com","sme2@bechtel.com"],
+        "tech_support": ["tech1@bechtel.com","tech2@bechtel.com"],
+        "primary_support": ["primary@bechtel.com","primary2@bechtel.com"],
+        "secondary_support": ["secondary1@bechtel.com","secondary2@bechtel.com"],
+        "all": ["all1@bechtel.com","all2@bechtel.com"]
+    },
+    {
+        "type": "sta",
+        "sme": ["sme1@bechtel.com","sme2@bechtel.com"],
+        "tech_support": ["tech1@bechtel.com","tech2@bechtel.com"],
+        "primary_support": ["primary@bechtel.com","primary2@bechtel.com"],
+        "secondary_support": ["secondary1@bechtel.com","secondary2@bechtel.com"]
+    },
+    {
+        "type": "kv",
+        "sme": ["sme1@bechtel.com","sme2@bechtel.com"],
+        "tech_support": ["tech1@bechtel.com","tech2@bechtel.com"],
+        "primary_support": ["primary@bechtel.com","primary2@bechtel.com"],
+        "secondary_support": ["secondary1@bechtel.com","secondary2@bechtel.com"]
+    },
+    {
+        "type": "redis",
+        "sme": ["sme1@bechtel.com","sme2@bechtel.com"],
+        "tech_support": ["tech1@bechtel.com","tech2@bechtel.com"],
+        "primary_support": ["primary@bechtel.com","primary2@bechtel.com"],
+        "secondary_support": ["secondary1@bechtel.com","secondary2@bechtel.com"]
+    },
+    {
+        "type": "postgres",
+        "sme": ["sme1@bechtel.com","sme2@bechtel.com"],
+        "tech_support": ["tech1@bechtel.com","tech2@bechtel.com"],
+        "primary_support": ["primary@bechtel.com","primary2@bechtel.com"],
+        "secondary_support": ["secondary1@bechtel.com","secondary2@bechtel.com"]
+    }
+]
